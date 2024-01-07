@@ -21,7 +21,7 @@ class UserController extends Controller
   public function loginAction()
   {
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-      unsetSesion();
+      // unsetSesion();
       $validation = new Validation();
 
       try {
