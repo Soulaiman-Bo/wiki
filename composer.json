@@ -1,0 +1,17 @@
+{
+  "name": "youcode/php-framework-rebuild",
+  "autoload": {
+      "psr-4": {
+          "App\\": "src/"
+      }
+  },
+  "authors": [
+      {
+          "name": "soulaiman-bo",
+          "email": "bouhlal.soulaiman@gmail.com"
+      }
+  ],
+  "require": {
+      "vlucas/phpdotenv": "^5.6"
+  }
+}
