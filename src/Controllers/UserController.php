@@ -20,7 +20,54 @@ class UserController extends Controller
   // API
   public function loginAction()
   {
-    echo json_encode(["message" => "json message"]);
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+      unsetSesion();
+      $validation = new Validation();
+
+      try {
+        $validation->key('email')->value(sanitize($_POST['email']))->required()->isEmail()->lengthBetween(4, 40, true);
+        $validation->key('password')->value(sanitize($_POST['password']))->required()->lengthBetween(8, 40, true);
+
+
+        $usermodel = new UserModel();
+        $email =  sanitize($_POST['email']);
+        $user = $usermodel->GetUser($email);
+
+        if (empty($user)) {
+          $validation->setError('user', "There is no user with This Email");
+        }
+
+        if (!$validation->isValid()) {
+          throw new ValidationException("Invalid Input");
+        }
+      } catch (ValidationException $e) {
+        $usermodel->closeConnection();
+        $errors =  $validation->getErrors();
+        http_response_code(400);
+        echo json_encode($errors);
+        exit;
+      }
+
+
+      if (verifyPassword(sanitize($_POST['password']), $user[0]['password'])) {
+
+        $_SESSION['user_email'] = $user[0]['email'];
+        $_SESSION['user_role'] = $user[0]['role'];
+        $_SESSION['user_firstname'] = $user[0]['firstname'];
+        $_SESSION['user_lastname'] = $user[0]['lastname'];
+
+
+
+        http_response_code(200);
+        echo json_encode(["login" => "log in successfull"]);
+
+        exit;
+      } else {
+        http_response_code(400);
+        echo json_encode(["login" => "log in failed"]);
+        exit;
+      }
+    }
   }
 
 
@@ -30,7 +77,6 @@ class UserController extends Controller
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
       $validation = new Validation();
-
       try {
 
 
@@ -90,8 +136,6 @@ class UserController extends Controller
             ]);
             exit;
           }
-
-
         } else {
           http_response_code(400);
           echo json_encode([
@@ -105,7 +149,7 @@ class UserController extends Controller
         'firstname' => sanitize($_POST['firstname']),
         'lastname' => sanitize($_POST['lastname']),
         'email' => sanitize($_POST['email']),
-        'password' => sanitize($_POST['password']),
+        'password' => hashPassword(sanitize($_POST['password'])),
         'title' => sanitize($_POST['title']),
         'description' => sanitize($_POST['description']),
         'role' => 2,
@@ -130,8 +174,21 @@ class UserController extends Controller
       }
     }
   }
+
+
+  public function logoutAction(){
+    unsetSesion();
+    header('Location: /login');
+    exit;
+  }
+
+
 }
 
+function unsetSesion(){
+  session_unset();
+  session_destroy();
+}
 
 function sanitize($data)
 {
@@ -140,3 +197,15 @@ function sanitize($data)
   $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
   return $data;
 };
+
+function hashPassword($password)
+{
+  $options = ['cost' => 5];
+  $hashedPassword = password_hash($password, PASSWORD_BCRYPT, $options);
+  return $hashedPassword;
+}
+
+function verifyPassword($enteredPassword, $hashedPassword)
+{
+  return password_verify($enteredPassword, $hashedPassword);
+}

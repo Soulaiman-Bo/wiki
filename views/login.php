@@ -9,6 +9,7 @@
 
 <body>
     <h1>login</h1>
+    <p><?php echo $_SESSION['user_role'] ?></p>
 </body>
 
 </html>

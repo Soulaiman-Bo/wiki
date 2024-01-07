@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 use App\Controllers\HomeController;
 use App\Controllers\UserController;
 
@@ -9,14 +11,15 @@ $router = new Router();
 
 
 // WEB
-$router->get('/', HomeController::class, 'index');
+//$router->get('/', HomeController::class, 'index');
 $router->get('/login', UserController::class, 'login');
 
 
-
 // API
-$router->get('/api/login', UserController::class, 'loginAction');
-$router->post('/api/registerAction', UserController::class, 'registerAction');
+$router->post('/api/login', UserController::class, 'loginAction');
+$router->post('/api/register', UserController::class, 'registerAction');
+$router->get('/api/logout', UserController::class, 'logoutAction');
+
 
 
 
