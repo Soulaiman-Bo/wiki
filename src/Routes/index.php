@@ -6,11 +6,11 @@ use App\classes\Router;
 use App\Controllers\TagController;
 use App\Controllers\UserController;
 use App\Controllers\WikiController;
+use App\Controllers\SearchController;
 use App\Controllers\CategoryController;
 
 
 $router = new Router();
-
 
 // WEB
 //$router->get('/', HomeController::class, 'index');
@@ -38,7 +38,12 @@ $router->get('/api/wiki/getall', WikiController::class, 'getAllWikies');
 $router->delete('/api/wiki/deleteWiki', WikiController::class, 'deleteWiki');
 
 
+$router->get('/api/search/tag', SearchController::class, 'searchforTags');
+$router->get('/api/search/wiki', SearchController::class, 'searchforWikies');
 
+
+$router->get('/api/filter/tag', SearchController::class, 'getwikisbyTag');
+$router->get('/api/filter/category', SearchController::class, 'getwikisbyCategory');
 
 
 $router->route();
