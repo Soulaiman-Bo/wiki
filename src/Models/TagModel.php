@@ -54,11 +54,37 @@ class TagModel extends Model
             $sql = "DELETE FROM `tags` WHERE id = $id";
             $stmt = $this->connection->prepare($sql);
             $stmt->execute();
-
         } catch (PDOException $e) {
             error_log("Database error: " . $e->getMessage() . "\n", 3, "errors.log");
             echo "Database error: " . $e->getMessage();
             exit;
+        }
+    }
+
+    public function assignTagsToWiki($data)
+    {
+        try {
+            $values = "";
+
+            foreach ($data as $key => $value) {
+                $values .= " ($value, $key),";
+            }
+
+            $sql = "INSERT INTO `article_tag` (`article_id`, `tag_id`) VALUES  $values";
+
+            $sql = rtrim($sql, ',');
+
+            // echo $sql;
+            // exit;
+
+            $stmt = $this->connection->prepare($sql);
+            $stmt->execute();
+
+           return true;
+        } catch (PDOException $e) {
+            error_log("Database error: " . $e->getMessage() . "\n", 3, "errors.log");
+            echo "Database error: " . $e->getMessage();
+            return false;
         }
     }
 }
