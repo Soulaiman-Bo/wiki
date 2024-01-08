@@ -56,8 +56,6 @@ class UserController extends Controller
         $_SESSION['user_firstname'] = $user[0]['firstname'];
         $_SESSION['user_lastname'] = $user[0]['lastname'];
 
-
-
         http_response_code(200);
         echo json_encode(["login" => "log in successfull"]);
 
@@ -177,6 +175,7 @@ class UserController extends Controller
 
 
   public function logoutAction(){
+    isloggedin();
     unsetSesion();
     header('Location: /login');
     exit;
@@ -208,4 +207,15 @@ function hashPassword($password)
 function verifyPassword($enteredPassword, $hashedPassword)
 {
   return password_verify($enteredPassword, $hashedPassword);
+}
+
+function isloggedin()
+{
+    if (isset($_SESSION['user_email'])) {
+        return true;
+    } else {
+        http_response_code(403);
+        echo json_encode(["message" => "Not Loged In"]);
+        exit;
+    }
 }

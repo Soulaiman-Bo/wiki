@@ -13,12 +13,9 @@ use App\Models\TagModel;
 
 class WikiController extends Controller
 {
-    // createWiki
-    // getAllWikies
-    // deleteWiki
-
     public function createWiki()
     {
+        isloggedin();
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
             $validation = new Validation();
@@ -98,11 +95,11 @@ class WikiController extends Controller
             $imagesModel = new WikiModel();
             $result = $imagesModel->InserWiki($data);
 
-           
-             $tags_article_id = mergeArrays($tags_i_array, [$result]);
 
-             $tagmodel = new TagModel();
-             $tags_result = $tagmodel->assignTagsToWiki( $tags_article_id);
+            $tags_article_id = mergeArrays($tags_i_array, [$result]);
+
+            $tagmodel = new TagModel();
+            $tags_result = $tagmodel->assignTagsToWiki($tags_article_id);
 
             if ($result && $tags_result) {
                 $imagesModel->closeConnection();
@@ -121,11 +118,10 @@ class WikiController extends Controller
         }
     }
 
-    public function getAllWikies(){
-        
+    public function getAllWikies()
+    {
     }
 }
-
 
 function sanitize($data)
 {
@@ -136,7 +132,8 @@ function sanitize($data)
 };
 
 
-function convertStringToArray($input) {
+function convertStringToArray($input)
+{
     $values = explode(', ', $input);
     $result = [];
     foreach ($values as $value) {
@@ -150,8 +147,21 @@ function convertStringToArray($input) {
 }
 
 
-function mergeArrays($keys, $values) {
-      $repeatedValues = array_pad($values, count($keys), reset($values));
-      $result = array_combine($keys, array_map('intval', $repeatedValues));
-      return $result;
+function mergeArrays($keys, $values)
+{
+    $repeatedValues = array_pad($values, count($keys), reset($values));
+    $result = array_combine($keys, array_map('intval', $repeatedValues));
+    return $result;
 }
+
+function isloggedin()
+{
+    if (isset($_SESSION['user_email'])) {
+        return true;
+    } else {
+        http_response_code(403);
+        echo json_encode(["message" => "Not Loged In"]);
+        exit;
+    }
+}
+
