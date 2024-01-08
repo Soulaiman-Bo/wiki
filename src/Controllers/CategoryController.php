@@ -12,6 +12,8 @@ class CategoryController extends Controller
 
     public function createCtaegory()
     {
+        checkAdminStatusApi();
+
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $data = [
                 'name' => $_POST['categoryname']
@@ -48,9 +50,9 @@ class CategoryController extends Controller
 
     public function deleteCtaegory()
     {
+        checkAdminStatusApi();
 
         $id = $_GET['id'];
-
         try {
             $categoryModel = new CategoryModel();
             $categoryModel->deleteCtaegory($id);
@@ -63,3 +65,24 @@ class CategoryController extends Controller
         }
     }
 }
+
+
+
+function checkAdminStatusApi()
+{
+    if (isset($_SESSION['user_role'])) {
+        if ($_SESSION['user_role'] === 1) {
+            return true;
+        } else {
+            http_response_code(403);
+            echo json_encode(["message" => "This route for Admin only"]);
+            exit;
+        }
+    } else {
+        http_response_code(403);
+        echo json_encode(["message" => "Not Loged In"]);
+        exit;
+    }
+}
+
+

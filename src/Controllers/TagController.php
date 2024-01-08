@@ -11,6 +11,7 @@ class TagController extends Controller
 {
     public function createTag()
     {
+        checkAdminStatusApi();
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $data = [
                 'name' => $_POST['tagname']
@@ -47,6 +48,7 @@ class TagController extends Controller
 
     public function deleteTag()
     {
+        checkAdminStatusApi();
         $id = $_GET['id'];
 
         try {
@@ -59,5 +61,22 @@ class TagController extends Controller
             http_response_code(400);
             echo json_encode(['message' => 'Faild to Delete']);
         }
+    }
+}
+
+function checkAdminStatusApi()
+{
+    if (isset($_SESSION['user_role'])) {
+        if ($_SESSION['user_role'] === 1) {
+            return true;
+        } else {
+            http_response_code(403);
+            echo json_encode(["message" => "This route for Admin only"]);
+            exit;
+        }
+    } else {
+        http_response_code(403);
+        echo json_encode(["message" => "Not Loged In"]);
+        exit;
     }
 }
