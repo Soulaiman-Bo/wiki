@@ -27,4 +27,20 @@ class WikiModel extends Model
             return false;
         }
     }
+
+
+    public function searchforWiki($data)
+    {
+        $sql = "SELECT * 
+                FROM `article` 
+                WHERE `title` 
+                LIKE '%$data%' OR  
+                `content`  LIKE '%$data%'
+                ";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
 }
