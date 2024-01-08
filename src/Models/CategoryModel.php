@@ -54,11 +54,24 @@ class CategoryModel extends Model
             $sql = "DELETE FROM `categories` WHERE id = $id";
             $stmt = $this->connection->prepare($sql);
             $stmt->execute();
-
         } catch (PDOException $e) {
             error_log("Database error: " . $e->getMessage() . "\n", 3, "errors.log");
             echo "Database error: " . $e->getMessage();
             exit;
         }
+    }
+
+    public function selectWikiesByCategory($id)
+    {
+        $sql = "SELECT A.*, C.name AS categoty_name, C.id AS category_id
+                FROM `article` A
+                join `categories` C 
+                ON A.category = C.id
+                WHERE A.category = $id";
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 }
