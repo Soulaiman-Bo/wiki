@@ -80,11 +80,35 @@ class TagModel extends Model
             $stmt = $this->connection->prepare($sql);
             $stmt->execute();
 
-           return true;
+            return true;
         } catch (PDOException $e) {
             error_log("Database error: " . $e->getMessage() . "\n", 3, "errors.log");
             echo "Database error: " . $e->getMessage();
             return false;
         }
+    }
+
+    public function searchforTag($data)
+    {
+        $sql = "SELECT * FROM `tags` WHERE `name` LIKE '%$data%'";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function selectWikiesByTag($id)
+    {
+
+        $sql = "SELECT * 
+                FROM `article_tag` T
+                join `article` A
+                ON T.article_id = A.id
+                WHERE tag_id = $id";
+                
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 }
