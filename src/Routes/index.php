@@ -15,6 +15,8 @@ $router = new Router();
 // WEB
 //$router->get('/', HomeController::class, 'index');
 $router->get('/login', UserController::class, 'login');
+$router->get('/register', UserController::class, 'register');
+
 
 
 // API
@@ -36,6 +38,7 @@ $router->delete('/api/tag/deleteTag', TagController::class, 'deleteTag');
 $router->post('/api/wiki/create', WikiController::class, 'createWiki');
 $router->get('/api/wiki/getall', WikiController::class, 'getAllWikies');
 $router->delete('/api/wiki/deleteWiki', WikiController::class, 'deleteWiki');
+$router->post('/api/wiki/update', WikiController::class, 'updateWiki');
 
 
 $router->get('/api/search/tag', SearchController::class, 'searchforTags');

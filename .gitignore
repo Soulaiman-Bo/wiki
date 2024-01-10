@@ -3,3 +3,4 @@
 node_modules
 public/images/profile
 README.md
+public/dist/output.css
