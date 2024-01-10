@@ -17,6 +17,13 @@ class UserController extends Controller
     $this->render('login');
   }
 
+  public function register()
+  {
+    $this->render('register');
+  }
+
+
+  
   // API
   public function loginAction()
   {
