@@ -121,7 +121,23 @@ class WikiController extends Controller
     public function getAllWikies()
     {
     }
+
+    public function updateWiki()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == "POST"){
+            $id = $_POST['id']; 
+            $status = $_POST['status']; 
+
+            $wikimodel = new WikiModel();
+            $wikimodel->updatewiki($id, $status);
+        }
+      
+
+    }
 }
+
+
+
 
 function sanitize($data)
 {
@@ -146,7 +162,6 @@ function convertStringToArray($input)
     return $result;
 }
 
-
 function mergeArrays($keys, $values)
 {
     $repeatedValues = array_pad($values, count($keys), reset($values));
@@ -164,4 +179,3 @@ function isloggedin()
         exit;
     }
 }
-

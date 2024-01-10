@@ -28,7 +28,6 @@ class WikiModel extends Model
         }
     }
 
-
     public function searchforWiki($data)
     {
         $sql = "SELECT * 
@@ -37,6 +36,19 @@ class WikiModel extends Model
                 LIKE '%$data%' OR  
                 `content`  LIKE '%$data%'
                 ";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function updatewiki($id, $column)
+    {
+        $sql = "UPDATE `article` 
+                SET $column = 'approved' 
+                WHERE `article`.`id` = $id";
+
+
         $stmt = $this->connection->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
