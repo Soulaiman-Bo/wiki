@@ -8,12 +8,17 @@ use App\Controllers\UserController;
 use App\Controllers\WikiController;
 use App\Controllers\SearchController;
 use App\Controllers\CategoryController;
+use App\Controllers\FrontOfficeControoler;
 
 
 $router = new Router();
 
 // WEB
-//$router->get('/', HomeController::class, 'index');
+$router->get('/', FrontOfficeControoler::class, 'home');
+$router->get('/article', FrontOfficeControoler::class, 'article');
+
+
+
 $router->get('/login', UserController::class, 'login');
 $router->get('/register', UserController::class, 'register');
 

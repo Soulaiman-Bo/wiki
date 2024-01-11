@@ -14,16 +14,24 @@ class UserController extends Controller
   //WEB 
   public function login()
   {
-    $this->render('login');
+    if (isset($_SESSION['user_email'])) {
+      header('location: /');
+    } else {
+      $this->render('login');
+    }
   }
 
   public function register()
   {
-    $this->render('register');
+    if (isset($_SESSION['user_email'])) {
+      header('location: /');
+    } else {
+      $this->render('register');
+    }
   }
 
 
-  
+
   // API
   public function loginAction()
   {
@@ -181,17 +189,17 @@ class UserController extends Controller
   }
 
 
-  public function logoutAction(){
+  public function logoutAction()
+  {
     isloggedin();
     unsetSesion();
-    header('Location: /login');
+    header('Location: /');
     exit;
   }
-
-
 }
 
-function unsetSesion(){
+function unsetSesion()
+{
   session_unset();
   session_destroy();
 }
@@ -218,11 +226,11 @@ function verifyPassword($enteredPassword, $hashedPassword)
 
 function isloggedin()
 {
-    if (isset($_SESSION['user_email'])) {
-        return true;
-    } else {
-        http_response_code(403);
-        echo json_encode(["message" => "Not Loged In"]);
-        exit;
-    }
+  if (isset($_SESSION['user_email'])) {
+    return true;
+  } else {
+    http_response_code(403);
+    echo json_encode(["message" => "Not Loged In"]);
+    exit;
+  }
 }
