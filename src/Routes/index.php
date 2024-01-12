@@ -24,7 +24,7 @@ $router->get('/dashboard', BackOfficeControoler::class, 'index');
 $router->get('/dashboard/wikies', BackOfficeControoler::class, 'showWikies');
 $router->get('/dashboard/createwiki', BackOfficeControoler::class, 'createwiki');
 
-$router->get('/dashboard/users', BackOfficeControoler::class, 'showWikies');
+$router->get('/dashboard/users', BackOfficeControoler::class, 'showusers');
 
 $router->get('/dashboard/tags', BackOfficeControoler::class, 'showtags');
 $router->get('/dashboard/createtag', BackOfficeControoler::class, 'createwiki');
@@ -32,8 +32,6 @@ $router->get('/dashboard/createtag', BackOfficeControoler::class, 'createwiki');
 
 $router->get('/dashboard/categories', BackOfficeControoler::class, 'showcategories');
 $router->get('/dashboard/createcategory', BackOfficeControoler::class, 'createwiki');
-
-
 
 
 $router->get('/login', UserController::class, 'login');
@@ -59,8 +57,10 @@ $router->delete('/api/tag/deleteTag', TagController::class, 'deleteTag');
 $router->post('/api/wiki/create', WikiController::class, 'createWiki');
 $router->get('/api/wiki/getall', WikiController::class, 'getAllWikies');
 $router->delete('/api/wiki/deleteWiki', WikiController::class, 'deleteWiki');
-$router->post('/api/wiki/update', WikiController::class, 'updateWiki');
 
+$router->post('/wiki/rejectaction', WikiController::class, 'rejectwiki');
+$router->post('/wiki/acceptaction', WikiController::class, 'acceptwiki');
+$router->post('/wiki/archiveaction', WikiController::class, 'archivewiki');
 
 $router->get('/api/search/tag', SearchController::class, 'searchforTags');
 $router->get('/api/search/wiki', SearchController::class, 'searchforWikies');
