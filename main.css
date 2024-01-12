@@ -49,3 +49,20 @@
       font-family: 'Raleway', sans-serif;
   }
   
+
+  .tabActive {
+    /* border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px; */
+    --tw-bg-opacity: 1;
+    background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  }
+  
+  .tabinActive {
+    /* border-bottom-width: 2px; */
+  }
+  
+  .tabinActive:hover {
+    background-color: rgba(212, 210, 210, 0.153);
+  }
+  

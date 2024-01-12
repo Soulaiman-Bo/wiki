@@ -9,6 +9,8 @@ use App\Controllers\WikiController;
 use App\Controllers\SearchController;
 use App\Controllers\CategoryController;
 use App\Controllers\FrontOfficeControoler;
+use App\Controllers\BackOfficeControoler;
+
 
 
 $router = new Router();
@@ -18,10 +20,24 @@ $router->get('/', FrontOfficeControoler::class, 'home');
 $router->get('/article', FrontOfficeControoler::class, 'article');
 
 
+$router->get('/dashboard', BackOfficeControoler::class, 'index');
+$router->get('/dashboard/wikies', BackOfficeControoler::class, 'showWikies');
+$router->get('/dashboard/createwiki', BackOfficeControoler::class, 'createwiki');
+
+$router->get('/dashboard/users', BackOfficeControoler::class, 'showWikies');
+
+$router->get('/dashboard/tags', BackOfficeControoler::class, 'showtags');
+$router->get('/dashboard/createtag', BackOfficeControoler::class, 'createwiki');
+
+
+$router->get('/dashboard/categories', BackOfficeControoler::class, 'showcategories');
+$router->get('/dashboard/createcategory', BackOfficeControoler::class, 'createwiki');
+
+
+
 
 $router->get('/login', UserController::class, 'login');
 $router->get('/register', UserController::class, 'register');
-
 
 
 // API
