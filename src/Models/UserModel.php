@@ -18,6 +18,19 @@ class UserModel extends Model
         return $result;
     }
 
+    public function GetAllUsers()
+    {
+        $sql = "SELECT U.*, I.src, I.alt 
+                FROM user U
+                join images I 
+                ON U.profile_img = I.id";
+        
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
     public function InsertUser($data)
     {
         try {

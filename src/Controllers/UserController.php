@@ -30,8 +30,6 @@ class UserController extends Controller
     }
   }
 
-
-
   // API
   public function loginAction()
   {
@@ -70,6 +68,7 @@ class UserController extends Controller
         $_SESSION['user_role'] = $user[0]['role'];
         $_SESSION['user_firstname'] = $user[0]['firstname'];
         $_SESSION['user_lastname'] = $user[0]['lastname'];
+        $_SESSION['user_id'] = $user[0]['id'];
 
         http_response_code(200);
         echo json_encode(["login" => "log in successfull"]);
@@ -82,8 +81,6 @@ class UserController extends Controller
       }
     }
   }
-
-
   public function registerAction()
   {
 
@@ -187,7 +184,6 @@ class UserController extends Controller
       }
     }
   }
-
 
   public function logoutAction()
   {

@@ -94,12 +94,15 @@ class WikiController extends Controller
 
             $imagesModel = new WikiModel();
             $result = $imagesModel->InserWiki($data);
+            $imagesModel->InserWikistatus($result);
 
 
             $tags_article_id = mergeArrays($tags_i_array, [$result]);
 
             $tagmodel = new TagModel();
             $tags_result = $tagmodel->assignTagsToWiki($tags_article_id);
+
+
 
             if ($result && $tags_result) {
                 $imagesModel->closeConnection();
@@ -117,23 +120,43 @@ class WikiController extends Controller
             }
         }
     }
-
-    public function getAllWikies()
+    public function acceptwiki()
     {
-    }
-
-    public function updateWiki()
-    {
-        if ($_SERVER['REQUEST_METHOD'] == "POST"){
-            $id = $_POST['id']; 
-            $status = $_POST['status']; 
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $id = $_POST['id'];
 
             $wikimodel = new WikiModel();
-            $wikimodel->updatewiki($id, $status);
-        }
-      
+            $wikimodel->setwikistatus($id, 2);
 
+            header('location: /dashboard/wikies');
+        }
     }
+
+    public function rejectwiki()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $id = $_POST['id'];
+
+            $wikimodel = new WikiModel();
+            $wikimodel->setwikistatus($id, 3);
+
+            header('location: /dashboard/wikies');
+        }
+    }
+
+    public function archivewiki()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $id = $_POST['id'];
+
+            $wikimodel = new WikiModel();
+            $wikimodel->archivewiki($id, 'archived');
+
+            header('location: /dashboard/wikies');
+        }
+    }
+
+    
 }
 
 
