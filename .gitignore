@@ -2,5 +2,6 @@
 .env
 node_modules
 public/images/profile
+public/images/wiki
 README.md
 public/dist/output.css
