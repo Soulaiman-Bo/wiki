@@ -47,11 +47,15 @@ $router->get('/api/logout', UserController::class, 'logoutAction');
 $router->post('/api/category/create', CategoryController::class, 'createCtaegory');
 $router->get('/api/category/getall', CategoryController::class, 'getAllCtaegories');
 $router->delete('/api/category/deletcategory', CategoryController::class, 'deleteCtaegory');
+$router->post('/api/category/updatecategory', CategoryController::class, 'updateCtagory');
+
 
 
 $router->post('/api/tag/create', TagController::class, 'createTag');
 $router->get('/api/tag/getall', TagController::class, 'getAllTags');
+$router->get('/api/tag/getone', TagController::class, 'getOneTagById');
 $router->delete('/api/tag/deleteTag', TagController::class, 'deleteTag');
+$router->post('/api/tag/updatetag', TagController::class, 'updateTag');
 
 
 $router->post('/api/wiki/create', WikiController::class, 'createWiki');

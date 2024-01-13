@@ -74,4 +74,25 @@ class CategoryModel extends Model
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+
+    public function updateCategory($id, $name)
+    {
+        try {
+
+            $sql = "UPDATE `categories` 
+            SET `name` = '$name'
+            WHERE `id` = $id;
+            ;
+            ";
+
+            $stmt = $this->connection->prepare($sql);
+            $stmt->execute();
+
+            return 1;
+        } catch (PDOException $e) {
+            error_log("Database error: " . $e->getMessage() . "\n", 3, "errors.log");
+            echo "Database error: " . $e->getMessage();
+            exit;
+        }
+    }
 }

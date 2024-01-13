@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\classes\Controller;
+use App\Models\CategoryModel;
+use App\Models\TagModel;
 use App\Models\UserModel;
 use App\Models\WikiModel;
 
@@ -40,12 +42,20 @@ class BackOfficeControoler extends Controller
     }
     public function showtags()
     {
-        $this->render('tags');
+        $usermodel = new TagModel();
+        $tags = $usermodel->selectAllTags();
+
+        $this->render('tags', ['tags' => $tags]);
     }
     public function showcategories()
     {
-        $this->render('categories');
+        $categorymodel = new CategoryModel();
+        $categories = $categorymodel->selectAllCategories();
+
+        $this->render('categories', ['categories' => $categories]);
+
     }
+    
 }
 
 

@@ -64,6 +64,37 @@ class CategoryController extends Controller
             echo json_encode(['message' => 'Faild to Delete']);
         }
     }
+
+    public function updateCtagory()
+    {
+        if (checkAdminStatusApi()) {
+            if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
+                $name = $_POST['categoryname'];
+                $id = $_POST['id'];
+
+
+                $categortModel = new CategoryModel();
+                $result = $categortModel->updateCategory($id, $name);
+
+                if ($result) {
+                    $categortModel->closeConnection();
+                    http_response_code(200);
+                    echo json_encode([
+                        "message" => "Category Updated Successfully",
+                        "id" => $result
+                    ]);
+                } else {
+                    http_response_code(400);
+                    echo json_encode([
+                        "message" => "Category faild to update",
+                    ]);
+                }
+            }
+        } else {
+            $this->render('404');
+        }
+    }
 }
 
 
@@ -84,5 +115,3 @@ function checkAdminStatusApi()
         exit;
     }
 }
-
-
