@@ -42,7 +42,6 @@ class SearchController extends Controller {
 
         echo json_encode($result);
     }
-
     public function getwikisbyCategory(){
 
         $tag = $_GET['category'];
@@ -52,5 +51,4 @@ class SearchController extends Controller {
 
         echo json_encode($result);
     }
-
 }

@@ -156,7 +156,16 @@ class WikiController extends Controller
         }
     }
 
-    
+    public function getAllWikies()
+    {
+
+        $wikimodel = new WikiModel();
+        $wikies = $wikimodel->getAllWikies();
+
+
+        http_response_code(200);
+        echo json_encode($wikies);
+    }
 }
 
 
