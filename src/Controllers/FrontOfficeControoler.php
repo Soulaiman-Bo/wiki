@@ -16,6 +16,10 @@ class FrontOfficeControoler extends Controller
     {
         $this->render('article');
     }
+    public function search()
+    {
+        $this->render('search');
+    }
 }
 
 

@@ -17,6 +17,7 @@ $router = new Router();
 
 // WEB
 $router->get('/', FrontOfficeControoler::class, 'home');
+$router->get('/search', FrontOfficeControoler::class, 'search');
 $router->get('/article', FrontOfficeControoler::class, 'article');
 
 
