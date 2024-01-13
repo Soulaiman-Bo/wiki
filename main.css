@@ -66,3 +66,9 @@
     background-color: rgba(212, 210, 210, 0.153);
   }
   
+  .centered-div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }

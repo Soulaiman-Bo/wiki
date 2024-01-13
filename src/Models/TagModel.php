@@ -38,7 +38,6 @@ class TagModel extends Model
             return false;
         }
     }
-
     public function selectAllTags()
     {
         $sql = "SELECT * FROM `tags` ";
@@ -47,7 +46,6 @@ class TagModel extends Model
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
-
     public function deleteTag($id)
     {
         try {
@@ -60,7 +58,26 @@ class TagModel extends Model
             exit;
         }
     }
+    public function updateTag($id, $name)
+    {
+        try {
 
+            $sql = "UPDATE `tags` 
+                    SET `name` = '$name'
+                    WHERE `tags`.`id` = $id;
+            ";
+
+            $stmt = $this->connection->prepare($sql);
+            $stmt->execute();
+
+            return 1;
+
+        } catch (PDOException $e) {
+            error_log("Database error: " . $e->getMessage() . "\n", 3, "errors.log");
+            echo "Database error: " . $e->getMessage();
+            exit;
+        }
+    }
     public function assignTagsToWiki($data)
     {
         try {
@@ -87,7 +104,6 @@ class TagModel extends Model
             return false;
         }
     }
-
     public function searchforTag($data)
     {
         $sql = "SELECT * FROM `tags` WHERE `name` LIKE '%$data%'";
@@ -96,7 +112,13 @@ class TagModel extends Model
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
-
+    public function  getTagById($id){
+        $sql = "SELECT * FROM `tags` WHERE `id` = $id";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
     public function selectWikiesByTag($id)
     {
 
@@ -105,7 +127,7 @@ class TagModel extends Model
                 join `article` A
                 ON T.article_id = A.id
                 WHERE tag_id = $id";
-                
+
         $stmt = $this->connection->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
