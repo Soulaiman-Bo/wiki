@@ -95,17 +95,26 @@
             <div class="w-full p-5 rounded-lg bg-white">
 
                 <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
-                    <select class="px-4 py-3 w-full rounded-md border border-gray-400  bg-gray-50  focus:border-gray-600 focus:bg-white focus:ring-0 text-sm">
-                        <option value="">Tags</option>
-                        <option value="for-rent">For Rent</option>
-                        <option value="for-sale">For Sale</option>
+                    <select id="pageSelector" onchange="navigateToPage()" class=" px-4 py-3 w-full rounded-md border border-gray-400 bg-gray-50 focus:border-gray-600 focus:bg-white focus:ring-0 text-sm">
+                        <option value="" selected disabled>Tags</option>
+
+                        <?php foreach ($tags as $tag) : ?>
+                            <option value="/search/tag?id=<?= $tag['id'] ?>">
+                                <?= $tag['name'] ?>
+                            </option>
+                        <?php endforeach; ?>
+
                     </select>
 
-                    <select class="px-4 py-3 w-full rounded-md  border border-gray-400  bg-gray-50 focus:border-gray-600 focus:bg-white focus:ring-0 text-sm">
-                        <option value="">Catgories</option>
-                        <option value="fully-furnished">Fully Furnished</option>
-                        <option value="partially-furnished">Partially Furnished</option>
-                        <option value="not-furnished">Not Furnished</option>
+                    <select id="pageSelector" onchange="navigateToPage()" class=" px-4 py-3 w-full rounded-md border border-gray-400 bg-gray-50 focus:border-gray-600 focus:bg-white focus:ring-0 text-sm">
+                        <option value="" selected disabled>Catgories</option>
+
+                        <?php foreach ($categories as $category) : ?>
+                            <option value="/search/category?id=<?= $category['id'] ?>">
+                                <?= $category['name'] ?>
+                            </option>
+                        <?php endforeach; ?>
+
                     </select>
                 </div>
 
@@ -117,98 +126,17 @@
                 <h2 class="text-3xl mt-7 mb-14 font-semibold">Latest Posts</h2>
 
                 <div class="flex flex-wrap gap-9">
-                    <a href="/" class="mb-4 mr-3 bg-gray-100 hover:bg-gray-200 flex flex-col gap-3 w-[360px] rounded-xl p-3">
-                        <img src="./images/ghana.jpg" class="w-full h-auto rounded-xl" />
-                        <span class="w-fit text-[#6C40FF] inline-block py-1 px-2 rounded-full">
-                            <span class="bg-[#6C40FF] h-3 w-3 inline-block rounded-full"></span>
-                            Markets</span>
-                        <h1 class="raleway font-semibold text-lg text-gray-700">
-                            Ghana’s Inflation Slows Again, Fanning Hopes For A Rate Cut
-                        </h1>
-                    </a>
-
-                    <a href="/" class="mb-4 mr-3 bg-gray-100 hover:bg-gray-200 flex flex-col gap-3 w-[360px] rounded-xl p-3">
-                        <img src="./images/960x640.jpg" class="w-full h-auto rounded-xl" />
-                        <span class="w-fit text-[#6C40FF] inline-block py-1 px-2 rounded-full">
-                            <span class="bg-[#6C40FF] h-3 w-3 inline-block rounded-full"></span>
-                            Politics</span>
-                        <h1 class="raleway font-semibold text-lg text-gray-700">
-                            Can Biden Convince Americans His Brand of Populism Is Better Than
-                            Trump’s?
-                        </h1>
-                    </a>
-
-                    <a href="/" class="mb-4 mr-3 bg-gray-100 hover:bg-gray-200 flex flex-col gap-3 w-[360px] rounded-xl p-3">
-                        <img src="./images/tesla.jpg" class="w-full h-auto rounded-xl" />
-                        <span class="w-fit text-[#6C40FF] inline-block py-1 px-2 rounded-full">
-                            <span class="bg-[#6C40FF] h-3 w-3 inline-block rounded-full"></span>
-                            Technology</span>
-                        <h1 class="raleway font-semibold text-lg text-gray-700">
-                            Tesla Makes Upgraded Model 3 Sedan Available in North America
-                        </h1>
-                    </a>
-
-                    <a href="/" class="mb-4 mr-3 bg-gray-100 hover:bg-gray-200 flex flex-col gap-3 w-[360px] rounded-xl p-3">
-                        <img src="./images/twitter-x-musk-graffiti.webp" class="w-full h-auto rounded-xl" />
-                        <span class="w-fit text-[#6C40FF] inline-block py-1 px-2 rounded-full">
-                            <span class="bg-[#6C40FF] h-3 w-3 inline-block rounded-full"></span>
-                            Apps</span>
-                        <h1 class="raleway font-semibold text-lg text-gray-700">
-                            X removes support for NFT profile pictures
-                        </h1>
-                    </a>
-
-                    <a href="/" class="mb-4 mr-3 bg-gray-100 hover:bg-gray-200 flex flex-col gap-3 w-[360px] rounded-xl p-3">
-                        <img src="./images/Green-energy-what-is-it-all-about-greenenergy-image-1.jpg" class="w-full h-auto rounded-xl" />
-                        <span class="w-fit text-[#6C40FF] inline-block py-1 px-2 rounded-full">
-                            <span class="bg-[#6C40FF] h-3 w-3 inline-block rounded-full"></span>
-                            Green</span>
-                        <h1 class="raleway font-semibold text-lg text-gray-700">
-                            What is Green Energy?
-                        </h1>
-                    </a>
-
-                    <a href="/" class="mb-4 mr-3 bg-gray-100 hover:bg-gray-200 flex flex-col gap-3 w-[360px] rounded-xl p-3">
-                        <img src="./images/240110073600-koh-samui-thailand-restricted.webp" class="w-full h-auto rounded-xl" />
-                        <span class="w-fit text-[#6C40FF] inline-block py-1 px-2 rounded-full">
-                            <span class="bg-[#6C40FF] h-3 w-3 inline-block rounded-full"></span>
-                            Travel</span>
-                        <h1 class="raleway font-semibold text-lg text-gray-700">
-                            The White Lotus’ season 3 filming location revealed
-                        </h1>
-                    </a>
-
-                    <a href="/" class="mb-4 mr-3 bg-gray-100 hover:bg-gray-200 flex flex-col gap-3 w-[360px] rounded-xl p-3">
-                        <img src="./images/960x640.jpg" class="w-full h-auto rounded-xl" />
-                        <span class="w-fit text-[#6C40FF] inline-block py-1 px-2 rounded-full">
-                            <span class="bg-[#6C40FF] h-3 w-3 inline-block rounded-full"></span>
-                            Politics</span>
-                        <h1 class="raleway font-semibold text-lg text-gray-700">
-                            Can Biden Convince Americans His Brand of Populism Is Better Than
-                            Trump’s?
-                        </h1>
-                    </a>
-
-                    <a href="/" class="mb-4 mr-3 bg-gray-100 hover:bg-gray-200 flex flex-col gap-3 w-[360px] rounded-xl p-3">
-                        <img src="./images/tesla.jpg" class="w-full h-auto rounded-xl" />
-                        <span class="w-fit text-[#6C40FF] inline-block py-1 px-2 rounded-full">
-                            <span class="bg-[#6C40FF] h-3 w-3 inline-block rounded-full"></span>
-                            Technology</span>
-                        <h1 class="raleway font-semibold text-lg text-gray-700">
-                            Tesla Makes Upgraded Model 3 Sedan Available in North America
-                        </h1>
-                    </a>
-
-                    <a href="/" class="mb-4 mr-3 bg-gray-100 hover:bg-gray-200 flex flex-col gap-3 w-[360px] rounded-xl p-3">
-                        <img src="./images/ghana.jpg" class="w-full h-auto rounded-xl" />
-                        <span class="w-fit text-[#6C40FF] inline-block py-1 px-2 rounded-full">
-                            <span class="bg-[#6C40FF] h-3 w-3 inline-block rounded-full"></span>
-                            Markets</span>
-                        <h1 class="raleway font-semibold text-lg text-gray-700">
-                            Ghana’s Inflation Slows Again, Fanning Hopes For A Rate Cut
-                        </h1>
-                    </a>
-
+                    <?php foreach ($wikies as $wiki) : ?>
+                        <a href="/" class="mb-4 mr-3 bg-gray-100 hover:bg-gray-200 flex flex-col gap-3 w-[360px] rounded-xl p-3">
+                            <img src="./images/ghana.jpg" class="w-full h-auto rounded-xl" />
+                            <span class="w-fit text-[#6C40FF] inline-block py-1 px-2 rounded-full">
+                                <span class="bg-[#6C40FF] h-3 w-3 inline-block rounded-full"></span>
+                                Markets</span>
+                            <h1 class="raleway font-semibold text-lg text-gray-700">
+                                <?= $wiki['title'] ?>
+                            </h1>
+                        </a>
+                    <?php endforeach; ?>
                 </div>
             </section>
         </div>
@@ -309,6 +237,14 @@
             </div>
         </div>
     </footer>
+    <script>
+        function navigateToPage() {
+            var selectedValue = document.getElementById("pageSelector").value;
+            if (selectedValue) {
+                window.location.href = selectedValue;
+            }
+        }
+    </script>
 </body>
 
 </html>
