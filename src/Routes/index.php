@@ -18,7 +18,9 @@ $router = new Router();
 // WEB
 $router->get('/', FrontOfficeControoler::class, 'home');
 $router->get('/search', FrontOfficeControoler::class, 'search');
-$router->get('/search/tag', FrontOfficeControoler::class, 'searchbyTag');
+$router->get('/searchbytag', FrontOfficeControoler::class, 'searchbyTag');
+$router->get('/searchbycat', FrontOfficeControoler::class, 'searchbyCat');
+
 
 
 $router->get('/article', FrontOfficeControoler::class, 'article');

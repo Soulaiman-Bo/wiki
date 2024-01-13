@@ -16,8 +16,7 @@ class FrontOfficeControoler extends Controller
         $wikies = $wikimodel->getAllWikies();
         // var_dump( $wikies);
         // exit;
-        $this->render('home', ['wikies'=> $wikies]);
-
+        $this->render('home', ['wikies' => $wikies]);
     }
 
     public function article()
@@ -34,19 +33,40 @@ class FrontOfficeControoler extends Controller
 
         $wikimodel = new WikiModel();
         $wikies = $wikimodel->getAllWikies();
-        
 
-        $this->render('search', ['wikies'=> $wikies, 'tags' => $tags, 'categories' => $categories]);
+
+        $this->render('search', ['wikies' => $wikies, 'tags' => $tags, 'categories' => $categories]);
     }
 
     public function searchbyTag()
     {
-        // $tag = $_GET['tag'];
+        $tag = $_GET['tag'];
 
-        // $tagModel = new TagModel();
-        // $wikies =  $tagModel->selectWikiesByTag($tag);
+        $tags = new TagModel();
+        $tags = $tags->selectAllTags();
 
-        // $this->render('search', ['tags' => $tags, 'categories' => $categories]);
+        $categories = new CategoryModel();
+        $categories =  $categories->selectAllCategories();
+
+        $tagModel = new TagModel();
+        $wikies =  $tagModel->selectWikiesByTag($tag);
+
+        $this->render('search', ['wikies' => $wikies, 'tags' => $tags, 'categories' => $categories]);
+    }
+
+    public function searchbyCat()
+    {
+        $id = $_GET['id'];
+
+       
+        $tags = new TagModel();
+        $tags = $tags->selectAllTags();
+
+        $categoryModel = new CategoryModel();
+        $categories =  $categoryModel->selectAllCategories();
+        $wikies =  $categoryModel->selectWikiesByCategory($id);
+
+        $this->render('search', ['wikies' => $wikies, 'tags' => $tags, 'categories' => $categories]);
     }
 }
 
