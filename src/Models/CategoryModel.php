@@ -63,6 +63,8 @@ class CategoryModel extends Model
 
     public function selectWikiesByCategory($id)
     {
+
+
         $sql = "SELECT A.*, C.name AS categoty_name, C.id AS category_id
                 FROM `article` A
                 join `categories` C 

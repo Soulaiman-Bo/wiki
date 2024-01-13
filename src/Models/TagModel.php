@@ -119,6 +119,7 @@ class TagModel extends Model
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
+
     public function selectWikiesByTag($id)
     {
 
