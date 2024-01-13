@@ -13,7 +13,7 @@ class FrontOfficeControoler extends Controller
     {
 
         $wikimodel = new WikiModel();
-        $wikies = $wikimodel->getAllWikies();
+        $wikies = $wikimodel->getAllWikiesForTheWeb();
         // var_dump( $wikies);
         // exit;
         $this->render('home', ['wikies' => $wikies]);
@@ -32,8 +32,7 @@ class FrontOfficeControoler extends Controller
         $categories =  $categories->selectAllCategories();
 
         $wikimodel = new WikiModel();
-        $wikies = $wikimodel->getAllWikies();
-
+        $wikies = $wikimodel->getAllWikiesForTheWeb();
 
         $this->render('search', ['wikies' => $wikies, 'tags' => $tags, 'categories' => $categories]);
     }

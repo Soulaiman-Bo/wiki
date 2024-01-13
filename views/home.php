@@ -106,16 +106,16 @@
     <section>
       <h2 class="text-3xl mt-7 mb-14 font-semibold">Latest Posts</h2>
 
-      <div class="flex flex-wrap gap-9">
+      <div id="wikiContainer" class="flex flex-wrap gap-9">
         <?php foreach ($wikies as $wiki) : ?> 
           <a href="/" class="mb-4 mr-3 bg-gray-100 hover:bg-gray-200 flex flex-col gap-3 w-[360px] rounded-xl p-3">
-            <img src="./images/ghana.jpg" class="w-full h-auto rounded-xl" />
+            <img src="./images/wiki/<?= $wiki['src'] ?>" class="w-full h-auto rounded-xl" />
             <span class="w-fit text-[#6C40FF] inline-block py-1 px-2 rounded-full">
               <span class="bg-[#6C40FF] h-3 w-3 inline-block rounded-full"></span>
-              Markets</span>
-            <h1 class="raleway font-semibold text-lg text-gray-700">
+              <?= $wiki['name'] ?></span>
+            <p class="raleway font-semibold text-lg text-gray-700">
               <?= $wiki['title'] ?>
-            </h1>
+            </p>
           </a>
         <?php endforeach; ?>
 

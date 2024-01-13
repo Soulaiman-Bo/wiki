@@ -45,9 +45,17 @@ class WikiModel extends Model
 
     public function searchforWiki($data)
     {
-        $sql = "SELECT * 
-                FROM `article` 
-                WHERE (`title` LIKE '%$data%' OR `content` LIKE '%$data%') AND `display` != 'archived'";
+        $sql = "SELECT A.*, W.status, T.firstname, T.lastname, M.src , R.id AS category_id, R.name
+        FROM `article` A 
+        JOIN `wikistatus` W 
+        ON A.id = W.wiki_id
+        JOIN `user` T 
+        ON A.author = T.id
+        JOIN `images` M 
+        ON A.header_img = M.id
+        JOIN `categories` R
+        ON A.category = R.id
+        WHERE `display` != 'archived'  AND w.status = 2  AND  (A.title  LIKE '%$data%' OR `content` LIKE '%$data%')" ;
 
         $stmt = $this->connection->prepare($sql);
         $stmt->execute();
@@ -74,10 +82,9 @@ class WikiModel extends Model
                 SET `display` = '$status'
                 WHERE `id` = $id";
 
-       
+
         $stmt = $this->connection->prepare($sql);
         $stmt->execute();
-
     }
 
     public function getAllWikies()
@@ -87,6 +94,27 @@ class WikiModel extends Model
                 JOIN `wikistatus` W 
                 ON A.id = W.wiki_id
                 WHERE `display` != 'archived'";
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getAllWikiesForTheWeb()
+    {
+
+        $sql = " SELECT A.*, W.status, T.firstname, T.lastname, M.src , R.id, R.name
+                FROM `article` A 
+                JOIN `wikistatus` W 
+                ON A.id = W.wiki_id
+                JOIN `user` T 
+                ON A.author = T.id
+                JOIN `images` M 
+                ON A.header_img = M.id
+                JOIN `categories` R
+                ON A.category = R.id
+                WHERE `display` != 'archived' AND w.status = 2;";
 
         $stmt = $this->connection->prepare($sql);
         $stmt->execute();
