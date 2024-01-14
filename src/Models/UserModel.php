@@ -49,6 +49,22 @@ class UserModel extends Model
         }
     }
 
+    public function deleteUser($id)
+    {
+        try {
+            $sql = "DELETE FROM `user` WHERE `id` = $id";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->execute();
+            $lastInsertId = $id;
+
+            return $lastInsertId;
+        } catch (PDOException $e) {
+            error_log("Database error: " . $e->getMessage() . "\n", 3, "errors.log");
+            echo "Database error: " . $e->getMessage();
+            return false;
+        }
+    }
+
     public function InsertUserProfileImage($data)
     {
         try {
@@ -66,4 +82,6 @@ class UserModel extends Model
             return false;
         }
     }
+
+
 }

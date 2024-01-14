@@ -97,4 +97,13 @@ class CategoryModel extends Model
             exit;
         }
     }
+
+    public function  getCategoryById($id)
+    {
+        $sql = "SELECT * FROM `categories` WHERE `id` = $id";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
 }
