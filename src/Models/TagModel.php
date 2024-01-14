@@ -71,7 +71,6 @@ class TagModel extends Model
             $stmt->execute();
 
             return 1;
-
         } catch (PDOException $e) {
             error_log("Database error: " . $e->getMessage() . "\n", 3, "errors.log");
             echo "Database error: " . $e->getMessage();
@@ -112,7 +111,8 @@ class TagModel extends Model
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
-    public function  getTagById($id){
+    public function  getTagById($id)
+    {
         $sql = "SELECT * FROM `tags` WHERE `id` = $id";
         $stmt = $this->connection->prepare($sql);
         $stmt->execute();
@@ -128,6 +128,21 @@ class TagModel extends Model
                 join `article` A
                 ON T.article_id = A.id
                 WHERE tag_id = $id";
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function selectTagsByWiki($id)
+    {
+
+        $sql = "SELECT * 
+                FROM `article_tag` T 
+                JOIN tags A 
+                ON T.tag_id = A.id
+                WHERE T.article_id = $id";
 
         $stmt = $this->connection->prepare($sql);
         $stmt->execute();

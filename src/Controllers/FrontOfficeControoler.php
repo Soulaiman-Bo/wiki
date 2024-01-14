@@ -14,14 +14,22 @@ class FrontOfficeControoler extends Controller
 
         $wikimodel = new WikiModel();
         $wikies = $wikimodel->getAllWikiesForTheWeb();
-        // var_dump( $wikies);
-        // exit;
         $this->render('home', ['wikies' => $wikies]);
     }
 
     public function article()
     {
-        $this->render('article');
+        $id = $_GET['id'];
+        
+        $wikimodel = new WikiModel();
+        $wikies = $wikimodel->getSinglewiki($id);
+
+        $wikimodel = new TagModel();
+        $tags = $wikimodel->selectTagsByWiki($id);
+
+       
+
+        $this->render('article', ['wiki' => $wikies, 'tags'=> $tags] );
     }
     public function search()
     {
