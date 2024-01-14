@@ -1,13 +1,14 @@
 const updateCategoryForm = document.getElementById("updateCategoryForm");
 const addCategoryForm = document.getElementById("addCategoryForm");
-const deleteCategoryForm = document.querySelectorAll("deleteCategoryForm");
+const deleteCategoryForm = document.querySelectorAll(".deleteCategoryForm");
 
 updateCategoryForm.addEventListener("submit", async function (event) {
   event.preventDefault();
+  console.log("hdhd");
 
   const formData = new FormData(this);
-  let formMethod = updateForm.method;
-  let formAction = updateForm.action;
+  let formMethod = updateCategoryForm.method;
+  let formAction = updateCategoryForm.action;
 
   console.log(formData);
 
@@ -62,7 +63,7 @@ addCategoryForm.addEventListener("submit", async function (event) {
       // document.getElementById('login_btn').classList.remove("hidden")
       // document.getElementById('signup_btn').classList.add("color_success")
       this.reset();
-      window.location.href = "./tags";
+      window.location.href = "./categories";
 
       // setTimeout(()=> {
       //     document.getElementById('signup_btn').innerHTML = "Sign up"
@@ -100,7 +101,7 @@ deleteCategoryForm.forEach((element) => {
 
       if (data.message == "Deleted Successfully") {
         this.reset();
-        window.location.href = "./tags";
+        window.location.href = "./categories";
       }
     } catch (error) {
       console.error("Error during fetch:", error);
