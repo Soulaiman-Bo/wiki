@@ -2,31 +2,31 @@
 
 namespace App\Controllers;
 
-use Exception;
+use App\Traits\ValidationHelper;
 use App\Models\WikiModel;
 use App\Models\ImageModel;
 use App\classes\Controller;
 use App\classes\Validation;
-use App\Models\CategoryModel;
 use App\classes\ValidationException;
 use App\Models\TagModel;
 
 class WikiController extends Controller
 {
+    use ValidationHelper;
+
     public function createWiki()
     {
-        isloggedin();
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
             $validation = new Validation();
             try {
-                $validation->key('title')->value(sanitize($_POST['title']))->required()->lengthBetween(6, 150, true);
-                $validation->key('description')->value(sanitize($_POST['description']))->required()->lengthBetween(4, 500, true);
-                $validation->key('author')->value(sanitize($_POST['author']))->required()->isNumber();
-                $validation->key('content')->value(sanitize($_POST['content']))->required()->lengthBetween(100, 8000, true);
-                $validation->key('category')->value(sanitize($_POST['category']))->required()->isNumber();
+                $validation->key('title')->value($this->sanitize($_POST['title']))->required()->lengthBetween(6, 150, true);
+                $validation->key('description')->value($this->sanitize($_POST['description']))->required()->lengthBetween(4, 500, true);
+                $validation->key('author')->value($this->sanitize($_POST['author']))->required()->isNumber();
+                $validation->key('content')->value($this->sanitize($_POST['content']))->required()->lengthBetween(100, 8000, true);
+                $validation->key('category')->value($this->sanitize($_POST['category']))->required()->isNumber();
                 $validation->key('header_img')->value($_FILES["header_img"])->required()->isImage();
-                $validation->key('tags')->value(sanitize($_POST['tags']))->required();
+                $validation->key('tags')->value($this->sanitize($_POST['tags']))->required();
 
                 $tags_i_array = convertStringToArray($_POST['tags']);
 
@@ -84,11 +84,11 @@ class WikiController extends Controller
             }
 
             $data = [
-                'title' => sanitize($_POST['title']),
-                'description' => sanitize($_POST['description']),
-                'author' => sanitize($_POST['author']),
-                'content' => sanitize($_POST['content']),
-                'category' => sanitize($_POST['category']),
+                'title' => $this->sanitize($_POST['title']),
+                'description' => $this->sanitize($_POST['description']),
+                'author' => $this->sanitize($_POST['author']),
+                'content' => $this->sanitize($_POST['content']),
+                'category' => $this->sanitize($_POST['category']),
                 'header_img' => $header_image,
             ];
 
@@ -169,17 +169,6 @@ class WikiController extends Controller
 }
 
 
-
-
-function sanitize($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
-    return $data;
-};
-
-
 function convertStringToArray($input)
 {
     $values = explode(', ', $input);
@@ -201,13 +190,4 @@ function mergeArrays($keys, $values)
     return $result;
 }
 
-function isloggedin()
-{
-    if (isset($_SESSION['user_email'])) {
-        return true;
-    } else {
-        http_response_code(403);
-        echo json_encode(["message" => "Not Loged In"]);
-        exit;
-    }
-}
+

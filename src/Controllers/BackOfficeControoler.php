@@ -31,6 +31,7 @@ class BackOfficeControoler extends Controller
             $wikies = $wikimodel->getAllWikiesByUserId($id);
             $this->render('showWikiesAuthor', ['wikies' => $wikies]);
         }
+
         $wikimodel->closeConnection();
     }
     public function showusers()
@@ -40,6 +41,19 @@ class BackOfficeControoler extends Controller
 
         $this->render('users', ['users' => $users]);
     }
+
+    public function deleteuser()
+    {
+        $id = $_GET['id'];
+
+        $usermodel = new UserModel();
+        $users = $usermodel->deleteUser($id);
+
+
+        header('location: /dashboard/users');
+    }
+
+
     public function showtags()
     {
         $usermodel = new TagModel();
@@ -47,26 +61,13 @@ class BackOfficeControoler extends Controller
 
         $this->render('tags', ['tags' => $tags]);
     }
+
     public function showcategories()
     {
         $categorymodel = new CategoryModel();
         $categories = $categorymodel->selectAllCategories();
 
         $this->render('categories', ['categories' => $categories]);
-
-    }
-    
-}
-
-
-function isloggedin()
-{
-    if (isset($_SESSION['user_email'])) {
-        return true;
-    } else {
-        http_response_code(403);
-        echo json_encode(["message" => "Not Loged In"]);
-        exit;
     }
 }
 

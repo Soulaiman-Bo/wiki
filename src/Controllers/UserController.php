@@ -6,11 +6,15 @@ use App\Models\UserModel;
 use App\classes\Controller;
 use App\classes\Validation;
 use App\classes\ValidationException;
-
-
+use App\Traits\AuthHelpers;
+use App\Traits\ValidationHelper;
 
 class UserController extends Controller
+
 {
+  use AuthHelpers;
+  use ValidationHelper;
+
   //WEB 
   public function login()
   {
@@ -33,17 +37,17 @@ class UserController extends Controller
   // API
   public function loginAction()
   {
+
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-      // unsetSesion();
       $validation = new Validation();
 
       try {
-        $validation->key('email')->value(sanitize($_POST['email']))->required()->isEmail()->lengthBetween(4, 40, true);
-        $validation->key('password')->value(sanitize($_POST['password']))->required()->lengthBetween(8, 40, true);
+        $validation->key('email')->value($this->sanitize($_POST['email']))->required()->isEmail()->lengthBetween(4, 40, true);
+        $validation->key('password')->value($this->sanitize($_POST['password']))->required()->lengthBetween(8, 40, true);
 
 
         $usermodel = new UserModel();
-        $email =  sanitize($_POST['email']);
+        $email =  $this->sanitize($_POST['email']);
         $user = $usermodel->GetUser($email);
 
         if (empty($user)) {
@@ -62,7 +66,7 @@ class UserController extends Controller
       }
 
 
-      if (verifyPassword(sanitize($_POST['password']), $user[0]['password'])) {
+      if ($this->verifyPassword($this->sanitize($_POST['password']), $user[0]['password'])) {
 
         $_SESSION['user_email'] = $user[0]['email'];
         $_SESSION['user_role'] = $user[0]['role'];
@@ -90,18 +94,18 @@ class UserController extends Controller
       try {
 
 
-        $validation->key('firstname')->value(sanitize($_POST['firstname']))->required()->lengthBetween(4, 25, true);
-        $validation->key('lastname')->value(sanitize($_POST['lastname']))->required()->lengthBetween(4, 25, true);
-        $validation->key('email')->value(sanitize($_POST['email']))->required()->isEmail()->lengthBetween(4, 40, true);
-        $validation->key('title')->value(sanitize($_POST['title']))->required()->lengthBetween(8, 60, true);
-        $validation->key('description')->value(sanitize($_POST['description']))->required()->lengthBetween(8, 300, true);
-        $validation->key('password')->value(sanitize($_POST['password']))->required()->lengthBetween(8, 40, true);
-        $validation->key('confirmpassword')->value(sanitize($_POST['confirmpassword']))->required()->IsPasswordsMatch($_POST['password']);
+        $validation->key('firstname')->value($this->sanitize($_POST['firstname']))->required()->lengthBetween(4, 25, true);
+        $validation->key('lastname')->value($this->sanitize($_POST['lastname']))->required()->lengthBetween(4, 25, true);
+        $validation->key('email')->value($this->sanitize($_POST['email']))->required()->isEmail()->lengthBetween(4, 40, true);
+        $validation->key('title')->value($this->sanitize($_POST['title']))->required()->lengthBetween(8, 60, true);
+        $validation->key('description')->value($this->sanitize($_POST['description']))->required()->lengthBetween(8, 300, true);
+        $validation->key('password')->value($this->sanitize($_POST['password']))->required()->lengthBetween(8, 40, true);
+        $validation->key('confirmpassword')->value($this->sanitize($_POST['confirmpassword']))->required()->IsPasswordsMatch($_POST['password']);
         $validation->key('profile_img')->value($_FILES["profile_img"])->required()->isImage();
 
 
         $usermodel = new UserModel();
-        $email =  sanitize($_POST['email']);
+        $email =  $this->sanitize($_POST['email']);
         $result = $usermodel->GetUser($email);
 
         if (!empty($result)) {
@@ -156,12 +160,12 @@ class UserController extends Controller
       }
 
       $data = [
-        'firstname' => sanitize($_POST['firstname']),
-        'lastname' => sanitize($_POST['lastname']),
-        'email' => sanitize($_POST['email']),
-        'password' => hashPassword(sanitize($_POST['password'])),
-        'title' => sanitize($_POST['title']),
-        'description' => sanitize($_POST['description']),
+        'firstname' => $this->sanitize($_POST['firstname']),
+        'lastname' => $this->sanitize($_POST['lastname']),
+        'email' => $this->sanitize($_POST['email']),
+        'password' => $this->hashPassword($this->sanitize($_POST['password'])),
+        'title' => $this->sanitize($_POST['title']),
+        'description' => $this->sanitize($_POST['description']),
         'role' => 2,
         'profile_img' => $profile_img_if,
       ];
@@ -187,46 +191,9 @@ class UserController extends Controller
 
   public function logoutAction()
   {
-    isloggedin();
-    unsetSesion();
+    $this->isloggedin();
+    $this->unsetSesion();
     header('Location: /');
-    exit;
-  }
-}
-
-function unsetSesion()
-{
-  session_unset();
-  session_destroy();
-}
-
-function sanitize($data)
-{
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
-  return $data;
-};
-
-function hashPassword($password)
-{
-  $options = ['cost' => 5];
-  $hashedPassword = password_hash($password, PASSWORD_BCRYPT, $options);
-  return $hashedPassword;
-}
-
-function verifyPassword($enteredPassword, $hashedPassword)
-{
-  return password_verify($enteredPassword, $hashedPassword);
-}
-
-function isloggedin()
-{
-  if (isset($_SESSION['user_email'])) {
-    return true;
-  } else {
-    http_response_code(403);
-    echo json_encode(["message" => "Not Loged In"]);
     exit;
   }
 }

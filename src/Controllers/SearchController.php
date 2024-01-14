@@ -2,13 +2,9 @@
 
 namespace App\Controllers;
 
-use Exception;
 use App\Models\WikiModel;
-use App\Models\ImageModel;
 use App\classes\Controller;
-use App\classes\Validation;
 use App\Models\CategoryModel;
-use App\classes\ValidationException;
 use App\Models\TagModel;
 
 class SearchController extends Controller {

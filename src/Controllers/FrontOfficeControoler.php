@@ -11,7 +11,6 @@ class FrontOfficeControoler extends Controller
 {
     public function home()
     {
-
         $wikimodel = new WikiModel();
         $wikies = $wikimodel->getAllWikiesForTheWeb();
         $this->render('home', ['wikies' => $wikies]);
@@ -26,8 +25,6 @@ class FrontOfficeControoler extends Controller
 
         $wikimodel = new TagModel();
         $tags = $wikimodel->selectTagsByWiki($id);
-
-       
 
         $this->render('article', ['wiki' => $wikies, 'tags'=> $tags] );
     }
@@ -65,7 +62,6 @@ class FrontOfficeControoler extends Controller
     {
         $id = $_GET['id'];
 
-       
         $tags = new TagModel();
         $tags = $tags->selectAllTags();
 
@@ -77,15 +73,3 @@ class FrontOfficeControoler extends Controller
     }
 }
 
-
-
-function isloggedin()
-{
-    if (isset($_SESSION['user_email'])) {
-        return true;
-    } else {
-        http_response_code(403);
-        echo json_encode(["message" => "Not Loged In"]);
-        exit;
-    }
-}
