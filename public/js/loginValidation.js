@@ -21,18 +21,10 @@ form.addEventListener("submit", async function (event) {
       }
 
       if(data.login == "log in successfull"){
-        // document.getElementById('signup_btn').innerHTML = "Success"
-        // document.getElementById('signup_btn').classList.remove("color")
-        // document.getElementById('login_btn').classList.remove("hidden")
-        // document.getElementById('signup_btn').classList.add("color_success") 
-        this.reset();
-        window.location.href = "./";
+            this.reset();
+        window.location.href = "/dashboard";
 
-        // setTimeout(()=> {
-        //     document.getElementById('signup_btn').innerHTML = "Sign up"
-        //     document.getElementById('signup_btn').classList.remove("color_success")
-        //     document.getElementById('signup_btn').classList.add("color") 
-        // }, 2000)
+       
         }
 
     } catch (error) {

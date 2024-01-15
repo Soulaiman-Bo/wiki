@@ -44,7 +44,7 @@
                 </a>
 
                 <a href="/" class="hover:underline flex justify-center gap-3 items-center">
-                    <p class="text-[#5c666d]">Ai</p>
+                    <p class="text-[#5c666d]"><?= $wiki['name'] ?></p>
                     <svg width="8" height="10" viewBox="0 0 8 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M7.542 5.35099L0 9.85099V8.50099L5.76 4.99099L0 1.46299V0.148987L7.542 4.68499V5.35099Z" fill="#6C7880" />
                     </svg>
@@ -71,17 +71,16 @@
                     <p class="raleway text-white font-semibold text-xl mb-3">
                         <?= $wiki['firstname'] ?> <?= $wiki['lastname'] ?>
                     </p>
+                    
 
                     <p class="raleway text-white font-light text-base">
-                        Software Engineer At Google
+                    <?= $wiki['user_title'] ?>
                     </p>
 
                     <hr class="my-3" />
-
+                    
                     <p class="raleway text-white font-light text-base">
-                        With 11 years in SaaS, I've built MillionVerifier and SAAS
-                        First. Passionate about SaaS, data, and AI. Let's connect if you
-                        share the same drive for success!
+                    <?= $wiki['user_description'] ?>
                     </p>
                 </div>
 
@@ -129,7 +128,7 @@
 
             <section class="grid grid-cols-9 grid-rows-5 gap-x-5 gap-y-0">
                 <div class="pr-4 col-span-6 row-span-5">
-                    <?= $wiki['content'] ?>
+                    <?= $wiki['content']  ?>
                 </div>
 
                 <div class="col-span-3 row-span-5">
@@ -145,7 +144,7 @@
             </section>
 
             <hr class="w-full my-4" />
-            <section>
+            <!-- <section>
                 <h3 class="text-3xl mb-4 font-semibold">Related Posts</h3>
 
                 <div class="flex flex-wrap gap-9">
@@ -183,7 +182,7 @@
                     </a>
                 </div>
 
-            </section>
+            </section> -->
         </main>
 
         <?php require_once "../views/includes/footer.php" ?>

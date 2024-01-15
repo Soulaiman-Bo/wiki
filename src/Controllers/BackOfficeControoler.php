@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\classes\Controller;
 use App\Models\CategoryModel;
+use App\Models\StatsModel;
 use App\Models\TagModel;
 use App\Models\UserModel;
 use App\Models\WikiModel;
@@ -13,11 +14,23 @@ class BackOfficeControoler extends Controller
 {
     public function index()
     {
-        $this->render('dashboard');
+        $statsModel = new StatsModel();
+        $categories = $statsModel->numberofCategories();
+        $users = $statsModel->numberofusers();
+        $wiki = $statsModel->numberofwikies();
+        $topusers = $statsModel->topUsers();
+        $toptags = $statsModel->topTags();
+
+        $this->render('dashboard', ['toptags' => $toptags ,'categories' => $categories, 'users' => $users, 'wiki' => $wiki, 'topUsers' => $topusers]);
     }
     public function createwiki()
     {
-        $this->render('createwiki');
+
+        $categories = new CategoryModel();
+        $categories =  $categories->selectAllCategories();
+
+
+        $this->render('createwiki', ['categories' => $categories]);
     }
     public function showWikies()
     {

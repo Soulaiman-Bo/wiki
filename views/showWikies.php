@@ -47,9 +47,7 @@ function shorten_title($title, $max_length = 25)
             <li class="tabs tabActive flex-grow  border-gray-300  rounded-t-2xl " role="presentation">
               <button class="inline-block  p-4 w-full rounded-t-lg" id="pending-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false" onclick="changeTab('pending', 'pending-tab')">
                 Pending
-                <span class="inline-flex items-center justify-center px-2 py-1 ms-2 text-xs font-semibold text-white bg-red-600 rounded-full">
-                  <?= $count['0']['count'] ?>
-                </span>
+            
               </button>
             </li>
 

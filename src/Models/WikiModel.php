@@ -125,17 +125,17 @@ class WikiModel extends Model
     public function getSinglewiki($id)
     {
 
-        $sql = " SELECT A.*, W.status, T.firstname, T.lastname, M.src , R.id, R.name
-                FROM `article` A 
-                JOIN `wikistatus` W 
-                ON A.id = W.wiki_id
-                JOIN `user` T 
-                ON A.author = T.id
-                JOIN `images` M 
-                ON A.header_img = M.id
-                JOIN `categories` R
-                ON A.category = R.id
-                WHERE `display` != 'archived' AND w.status = 2 AND A.id = $id";
+        $sql = " SELECT A.*, W.status, T.firstname, T.lastname, M.src , R.id, R.name, T.title as user_title, T.description AS user_description
+        FROM `article` A 
+        JOIN `wikistatus` W 
+        ON A.id = W.wiki_id
+        JOIN `user` T 
+        ON A.author = T.id
+        JOIN `images` M 
+        ON A.header_img = M.id
+        JOIN `categories` R
+        ON A.category = R.id
+        WHERE `display` != 'archived' AND w.status = 2 AND A.id =  $id";
 
         $stmt = $this->connection->prepare($sql);
         $stmt->execute();
