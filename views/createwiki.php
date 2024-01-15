@@ -19,7 +19,7 @@
   <?php else : ?>
     <?php require_once "../views/includes/author_sidebar.php" ?>
   <?php endif; ?>
-  
+
   <div class="p-4 sm:ml-64">
     <div class="p-4 border-2 min-h-[100vh] bg-gray-200 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
       <div class="w-full max-w-full px-3 shrink-0 md:flex-0">
@@ -30,7 +30,10 @@
             </div>
           </div>
 
-          <div class="flex-auto p-6">
+          <form id="addwikiForm" method="post" action="/api/wiki/create" class="flex-auto p-6">
+            <input name="author" type="hidden" value="<?= $_SESSION['user_id'] ?>">
+            <input name="tags" type="hidden" value="36, 40">
+
             <div class="flex flex-wrap -mx-3">
               <div class="w-full max-w-full px-3 shrink-0 md:w-6/12 md:flex-0">
                 <div class="mb-4">
@@ -43,56 +46,25 @@
                 <div class="mb-4">
                   <label for="category" class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Category</label>
                   <select name="category" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none">
-                    <option selected>A</option>
-                    <option>B</option>
-                    <option>C</option>
+                    <option value="" selected disabled>Catgories</option>
+                    <?php foreach ($categories as $category) : ?>
+                      <option value="<?= $category['id'] ?>">
+                        <?= $category['name'] ?>
+                      </option>
+                    <?php endforeach; ?>
                   </select>
                 </div>
               </div>
 
               <div class="w-full max-w-full px-3 shrink-0 md:w-6/12 md:flex-0">
                 <div class="mb-4">
-                  <label for="title" class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Header Image</label>
-                  <input type="file" name="title" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none" />
+                  <label for="header_img" class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Header Image</label>
+                  <input type="file" name="header_img" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none" />
                 </div>
               </div>
 
-              <!-- <div
-                  class="w-full max-w-full px-3 shrink-0 md:w-6/12 md:flex-0"
-                >
-                  <div class="mb-4">
-                    <label
-                      for="first name"
-                      class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80"
-                      >First name</label
-                    >
-                    <input
-                      type="text"
-                      name="first name"
-                      value="Jesse"
-                      class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none"
-                    />
-                  </div>
-                </div>
-
-                <div
-                  class="w-full max-w-full px-3 shrink-0 md:w-6/12 md:flex-0"
-                >
-                  <div class="mb-4">
-                    <label
-                      for="last name"
-                      class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80"
-                      >Last name</label
-                    >
-                    <input
-                      type="text"
-                      name="last name"
-                      value="Lucky"
-                      class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none"
-                    />
-                  </div>
-                </div> -->
             </div>
+
             <hr class="h-px mx-0 my-4 bg-transparent border-0 opacity-25 bg-gradient-to-r from-transparent via-black/40 to-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-white dark:to-transparent" />
 
             <div class="flex flex-wrap -mx-3">
@@ -107,20 +79,24 @@
             <div class="flex flex-wrap -mx-3">
               <div class="w-full max-w-full px-3 shrink-0 md:w-full md:flex-0">
                 <div class="mb-4">
-                  <label for="about me" class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">About me</label>
-
-                  <textarea class="myTextEditor" name="about me"> </textarea>
-
-                  <!-- <input
-                      type="text"
-                      name="about me"
-                      value="A beautiful Dashboard for Bootstrap 5. It is Free and Open Source."
-                      class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none"
-                    /> -->
+                  <label for="content" class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Content</label>
+                  <textarea class="myTextEditor" name="content"> </textarea>
                 </div>
               </div>
             </div>
+
+            <button type="submit" href="/dashboard/createwiki" data-modal-toggle="delete-user-modal" class="inline-flex items-center w-fit mb-5 py-2 px-3 text-sm font-medium text-center text-white bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg shadow-md shadow-gray-300 hover:scale-[1.02] transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" style="fill: rgb(255, 255, 255)">
+                <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
+              </svg>
+              Create New Wiki
+            </button>
+
+          </form>
+          <div id="selectedValuesDisplay">
+
           </div>
+
         </div>
       </div>
     </div>
@@ -132,8 +108,10 @@
       plugins: "anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount",
       toolbar: "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat",
     });
-    tinyMCE.triggerSave();
   </script>
 </body>
+
+<script src="./../js/formValidation.js"></script>
+<script src="./../js/wikiesCrud.js"></script>
 
 </html>
